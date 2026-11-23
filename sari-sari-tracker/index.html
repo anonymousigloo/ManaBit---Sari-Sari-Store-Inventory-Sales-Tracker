@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sari-Sari Store Inventory &amp; Sales Tracker</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header>
+    <h1>Sari-Sari Store Inventory &amp; Sales Tracker</h1>
+  </header>
+
+  <main>
+
+    <!-- ===== 1. TODAY'S SUMMARY ===== -->
+    <section>
+      <div class="summary-grid">
+        <div class="summary-card">
+          <div class="label">Total Sales Today</div>
+          <div class="value" id="summary-sales">₱0.00</div>
+        </div>
+        <div class="summary-card">
+          <div class="label">Items Sold Today</div>
+          <div class="value" id="summary-items">0</div>
+        </div>
+        <div class="summary-card">
+          <div class="label">Transactions Today</div>
+          <div class="value" id="summary-txns">0</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 2. TWO PANELS: Add/Edit Product (Left) + Record Sale (Right) ===== -->
+    <section class="two-panel">
+
+      <!-- LEFT: Add / Edit Product Form -->
+      <div class="card">
+        <h2 id="product-form-title">Add / Edit Product</h2>
+        <form id="product-form" novalidate>
+
+          <div class="form-group">
+            <label for="product-name">Product Name</label>
+            <input type="text" id="product-name" placeholder="e.g., Lucky Me Chicken Noodles" />
+          </div>
+
+          <div class="form-group">
+            <label for="product-category">Category</label>
+            <select id="product-category">
+              <option value="">-- Select Category --</option>
+              <option value="Canned Goods">Canned Goods</option>
+              <option value="Instant Noodles">Instant Noodles</option>
+              <option value="Beverages">Beverages</option>
+              <option value="Snacks">Snacks</option>
+              <option value="Condiments">Condiments</option>
+              <option value="Toiletries">Toiletries</option>
+              <option value="Household">Household</option>
+              <option value="Others">Others</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="product-price">Price (₱)</label>
+            <input type="number" id="product-price" min="0.01" step="0.01" placeholder="e.g., 15.00" />
+          </div>
+
+          <div class="form-group">
+            <label for="product-stock">Stock (units)</label>
+            <input type="number" id="product-stock" min="0" step="1" placeholder="e.g., 50" />
+          </div>
+
+          <div class="form-group">
+            <label for="product-low-stock">Low Stock Alert Level</label>
+            <input type="number" id="product-low-stock" min="0" step="1" placeholder="e.g., 5" />
+          </div>
+
+          <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:4px;">
+            <button type="submit" id="product-submit-btn" class="btn btn-primary">Save Product</button>
+            <button type="button" id="cancel-btn" class="btn btn-secondary" style="display:none;">Cancel</button>
+          </div>
+
+          <!-- Message area for product form feedback -->
+          <div id="product-msg" class="message" aria-live="polite"></div>
+        </form>
+      </div>
+
+      <!-- RIGHT: Record Sale Form -->
+      <div class="card">
+        <h2>Record Sale</h2>
+
+        <div class="form-group">
+          <label for="sale-product">Product</label>
+          <select id="sale-product">
+            <option value="">-- Select Product --</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Price</label>
+          <span class="info-display" id="sale-price-display">—</span>
+        </div>
+
+        <div class="form-group">
+          <label>In Stock</label>
+          <span class="info-display" id="sale-stock-display">—</span>
+        </div>
+
+        <div class="form-group">
+          <label for="sale-quantity">Quantity</label>
+          <input type="number" id="sale-quantity" min="1" step="1" placeholder="e.g., 3" />
+        </div>
+
+        <div class="form-group">
+          <label>Total</label>
+          <span class="info-display" id="sale-total-display">—</span>
+        </div>
+
+        <button type="button" id="record-sale-btn" class="btn btn-primary">Record Sale</button>
+
+        <!-- Message area for sale form feedback -->
+        <div id="sale-msg" class="message" aria-live="polite"></div>
+      </div>
+
+    </section>
+
+    <!-- ===== 3. INVENTORY TABLE ===== -->
+    <section class="card">
+      <h2>Inventory</h2>
+
+      <!-- Controls: Search, Category Filter, Sort, Low Stock Checkbox -->
+      <div class="controls-row">
+        <input type="text" id="search-box" placeholder="Search products..." aria-label="Search products" />
+
+        <select id="filter-category" aria-label="Filter by category">
+          <option value="">All Categories</option>
+          <option value="Canned Goods">Canned Goods</option>
+          <option value="Instant Noodles">Instant Noodles</option>
+          <option value="Beverages">Beverages</option>
+          <option value="Snacks">Snacks</option>
+          <option value="Condiments">Condiments</option>
+          <option value="Toiletries">Toiletries</option>
+          <option value="Household">Household</option>
+          <option value="Others">Others</option>
+        </select>
+
+        <select id="sort-by" aria-label="Sort by">
+          <option value="name">Sort: Name (A-Z)</option>
+          <option value="price">Sort: Price (Low to High)</option>
+          <option value="stock">Sort: Stock (Low to High)</option>
+        </select>
+
+        <label>
+          <input type="checkbox" id="low-stock-check" />
+          Show low stock only
+        </label>
+      </div>
+
+      <!-- Inventory Table -->
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Category</th>
+              <th>Price</th>
+              <th>Stock</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="inventory-tbody">
+            <!-- Filled by renderProducts() in ui.js -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ===== 4. TODAY'S SALES LOG ===== -->
+    <section class="card">
+      <h2>Today's Sales Log</h2>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Product</th>
+              <th>Qty</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody id="sales-tbody">
+            <!-- Filled by renderSales() in ui.js -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Danger action buttons -->
+      <div class="danger-row">
+        <button type="button" id="clear-sales-btn" class="btn btn-danger">Clear All Sales</button>
+        <button type="button" id="reset-data-btn" class="btn btn-danger">Reset Data</button>
+      </div>
+    </section>
+
+    <!-- ===== 5. SALES HISTORY & BEST SELLERS ===== -->
+    <section class="card">
+      <h2>Sales History &amp; Best Sellers</h2>
+
+      <!-- Filter Controls -->
+      <div class="reports-controls">
+        <div class="form-group">
+          <label for="history-start">From Date</label>
+          <input type="date" id="history-start" aria-label="History start date" />
+        </div>
+
+        <div class="form-group">
+          <label for="history-end">To Date</label>
+          <input type="date" id="history-end" aria-label="History end date" />
+        </div>
+
+        <div class="form-group">
+          <label for="history-product-filter">Product</label>
+          <select id="history-product-filter" aria-label="Filter history by product">
+            <option value="">All Products</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="rank-by">Rank Best Sellers By</label>
+          <select id="rank-by" aria-label="Rank best sellers by">
+            <option value="unitsSold">Units Sold</option>
+            <option value="revenue">Revenue</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Preset Buttons -->
+      <div style="margin-bottom: 14px; display:flex; flex-wrap:wrap; gap:6px;">
+        <button type="button" id="preset-today" class="btn btn-preset">Today</button>
+        <button type="button" id="preset-week" class="btn btn-preset">This Week</button>
+        <button type="button" id="preset-month" class="btn btn-preset">This Month</button>
+        <button type="button" id="preset-all" class="btn btn-preset">All</button>
+        <button type="button" id="clear-filters-btn" class="btn btn-secondary" style="font-size:0.85rem; padding:6px 12px;">Clear Filters</button>
+      </div>
+
+      <!-- Range Summary Line -->
+      <div class="range-summary">
+        <div>Revenue: <span id="range-revenue">₱0.00</span></div>
+        <div>Units Sold: <span id="range-units">0</span></div>
+        <div>Transactions: <span id="range-txns">0</span></div>
+      </div>
+
+      <!-- Reports message area (errors, empty state) -->
+      <div id="reports-msg" class="message" aria-live="polite"></div>
+
+      <!-- Two-column: History Table + Best Sellers List -->
+      <div class="history-cols">
+        <!-- History Table -->
+        <div>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Product</th>
+                  <th>Qty</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+              <tbody id="history-tbody">
+                <!-- Filled by renderHistory() in reports.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Best Sellers -->
+        <div class="best-sellers-box">
+          <h3>&#127942; Top 5 Best Sellers</h3>
+          <ol id="best-sellers-list">
+            <!-- Filled by renderBestSellers() in reports.js -->
+          </ol>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <p>Sari-Sari Store Inventory &amp; Sales Tracker &mdash; EDP Final Project &mdash; ManaBit</p>
+  </footer>
+
+  <!-- ===== SCRIPTS (loaded in required order, NO type="module") ===== -->
+  <script src="js/storage.js"></script>
+  <script src="js/inventory.js"></script>
+  <script src="js/sales.js"></script>
+  <script src="js/reports.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/main.js"></script>
+
+</body>
+</html>

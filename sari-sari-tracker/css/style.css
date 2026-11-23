@@ -1,0 +1,490 @@
+/* style.css */
+/* Purpose: All visual styling for the Sari-Sari Store Inventory & Sales Tracker */
+
+/* ---- CSS Variables (colors and spacing) ---- */
+:root {
+  --primary: #2563eb;
+  --primary-dark: #1d4ed8;
+  --success: #16a34a;
+  --danger: #dc2626;
+  --danger-dark: #b91c1c;
+  --warning-bg: #fef9c3;
+  --warning-border: #ca8a04;
+  --light-gray: #f3f4f6;
+  --border: #d1d5db;
+  --text: #111827;
+  --muted: #6b7280;
+  --white: #ffffff;
+  --card-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  --radius: 8px;
+}
+
+/* ---- Reset and Base ---- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 15px;
+  color: var(--text);
+  background: #f0f4f8;
+  line-height: 1.5;
+}
+
+/* ---- Header ---- */
+header {
+  background: var(--primary);
+  color: var(--white);
+  padding: 18px 24px;
+  text-align: center;
+}
+
+header h1 {
+  font-size: 1.6rem;
+  font-weight: bold;
+}
+
+/* ---- Main Content ---- */
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px 16px;
+}
+
+/* ---- Section and Card ---- */
+section {
+  margin-bottom: 24px;
+}
+
+.card {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--card-shadow);
+  padding: 20px;
+}
+
+.card h2 {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-bottom: 14px;
+  color: var(--primary);
+  border-bottom: 2px solid var(--light-gray);
+  padding-bottom: 8px;
+}
+
+/* ---- Today's Summary Cards ---- */
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.summary-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--card-shadow);
+  padding: 18px;
+  text-align: center;
+  border-top: 4px solid var(--primary);
+}
+
+.summary-card .label {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.summary-card .value {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--primary);
+}
+
+/* ---- Two-Panel Layout (Form + Sale side by side) ---- */
+.two-panel {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* ---- Forms ---- */
+form .form-group {
+  margin-bottom: 12px;
+}
+
+form label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: bold;
+  margin-bottom: 4px;
+  color: var(--text);
+}
+
+form input[type="text"],
+form input[type="number"],
+form select {
+  width: 100%;
+  padding: 9px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+  color: var(--text);
+  background: var(--white);
+}
+
+form input[type="text"]:focus,
+form input[type="number"]:focus,
+form select:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 1px;
+}
+
+/* Read-only display fields in sale form */
+.info-display {
+  display: inline-block;
+  padding: 8px 10px;
+  background: var(--light-gray);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+  min-width: 80px;
+}
+
+/* ---- Buttons ---- */
+.btn {
+  display: inline-block;
+  padding: 9px 16px;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: var(--white);
+}
+
+.btn-primary:hover {
+  background: var(--primary-dark);
+}
+
+.btn-secondary {
+  background: var(--light-gray);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.btn-secondary:hover {
+  background: var(--border);
+}
+
+/* Danger buttons (Clear Sales, Reset Data) */
+.btn-danger {
+  background: var(--danger);
+  color: var(--white);
+}
+
+.btn-danger:hover {
+  background: var(--danger-dark);
+}
+
+/* Small action buttons in the inventory table */
+.btn-edit {
+  background: var(--primary);
+  color: var(--white);
+  padding: 5px 10px;
+  font-size: 0.82rem;
+  margin-right: 4px;
+}
+
+.btn-edit:hover { background: var(--primary-dark); }
+
+.btn-restock {
+  background: var(--success);
+  color: var(--white);
+  padding: 5px 10px;
+  font-size: 0.82rem;
+  margin-right: 4px;
+}
+
+.btn-restock:hover { background: #15803d; }
+
+.btn-delete {
+  background: var(--danger);
+  color: var(--white);
+  padding: 5px 10px;
+  font-size: 0.82rem;
+}
+
+.btn-delete:hover { background: var(--danger-dark); }
+
+/* Preset buttons in reports */
+.btn-preset {
+  background: #e0e7ff;
+  color: var(--primary);
+  border: 1px solid #c7d2fe;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  margin-right: 6px;
+  margin-bottom: 6px;
+}
+
+.btn-preset:hover {
+  background: #c7d2fe;
+}
+
+/* ---- Messages ---- */
+.message {
+  display: none;
+  padding: 8px 12px;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  margin-top: 8px;
+}
+
+.msg-success {
+  background: #dcfce7;
+  color: #15803d;
+  border: 1px solid #86efac;
+}
+
+.msg-error {
+  background: #fee2e2;
+  color: var(--danger);
+  border: 1px solid #fca5a5;
+}
+
+/* ---- Tables ---- */
+.table-wrapper {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 500px;
+}
+
+thead {
+  background: var(--light-gray);
+}
+
+th {
+  padding: 10px 12px;
+  text-align: left;
+  font-size: 0.88rem;
+  font-weight: bold;
+  color: var(--muted);
+  border-bottom: 2px solid var(--border);
+}
+
+td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--light-gray);
+  font-size: 0.93rem;
+  vertical-align: middle;
+}
+
+/* Zebra striping */
+tbody tr:nth-child(even) {
+  background: #f9fafb;
+}
+
+tbody tr:hover {
+  background: #eff6ff;
+}
+
+.actions-cell {
+  white-space: nowrap;
+}
+
+/* ---- Low Stock Badge ---- */
+.low-badge {
+  display: inline-block;
+  background: var(--danger);
+  color: var(--white);
+  font-size: 0.72rem;
+  font-weight: bold;
+  padding: 1px 6px;
+  border-radius: 4px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+/* ---- Controls Row (search, filter, sort) ---- */
+.controls-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.controls-row input[type="text"],
+.controls-row select {
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  background: var(--white);
+  color: var(--text);
+}
+
+.controls-row input[type="text"] {
+  flex: 1;
+  min-width: 140px;
+}
+
+.controls-row label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+/* ---- Danger Buttons Row ---- */
+.danger-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+
+/* ---- Reports Section ---- */
+.reports-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: flex-end;
+  margin-bottom: 14px;
+}
+
+.reports-controls .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.reports-controls label {
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: var(--muted);
+}
+
+.reports-controls input[type="date"],
+.reports-controls select {
+  padding: 7px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  background: var(--white);
+  color: var(--text);
+}
+
+.range-summary {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  margin-bottom: 14px;
+  font-size: 0.95rem;
+}
+
+.range-summary span {
+  font-weight: bold;
+  color: var(--primary);
+}
+
+/* Two-column layout for history table and best sellers */
+.history-cols {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.best-sellers-box h3 {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: var(--primary);
+}
+
+.best-sellers-box ol {
+  padding-left: 20px;
+}
+
+.best-sellers-box ol li {
+  padding: 6px 0;
+  border-bottom: 1px solid var(--light-gray);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.best-sellers-box ol li:last-child {
+  border-bottom: none;
+}
+
+/* ---- Footer ---- */
+footer {
+  text-align: center;
+  padding: 16px;
+  font-size: 0.85rem;
+  color: var(--muted);
+  background: var(--white);
+  border-top: 1px solid var(--border);
+  margin-top: 24px;
+}
+
+/* ---- Responsive (mobile stacking at 768px) ---- */
+@media (max-width: 768px) {
+  .summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .two-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .history-cols {
+    grid-template-columns: 1fr;
+  }
+
+  .controls-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .controls-row input[type="text"],
+  .controls-row select {
+    width: 100%;
+  }
+
+  header h1 {
+    font-size: 1.2rem;
+  }
+
+  .summary-card .value {
+    font-size: 1.2rem;
+  }
+
+  .btn {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 6px;
+  }
+
+  .btn-edit, .btn-restock, .btn-delete {
+    width: auto;
+  }
+}
